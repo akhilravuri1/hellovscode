@@ -15,6 +15,34 @@ function activate(context) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "hellovscode" is now active!');
 
+	vscode.workspace.onDidCloseTextDocument(function (document) {
+		console.log("close call")
+		if (document.getText()) {
+			const pickListItems = [];
+			const option1 = {
+				label: "Yes",
+				description: "To submit the changes",
+			};
+			const option2 = {
+				label: "No",
+				description: "Delete the changes",
+			};
+			pickListItems.push(option1, option2)
+			vscode.window.showQuickPick(pickListItems, {
+				ignoreFocusOut: true,
+				placeHolder: "Choose one of the action below",
+			}).then(selected => {
+				if (selected) {
+					if (selected == option1) {
+						console.log(document.getText())
+					} else {
+						console.log("No")
+					}
+				}
+			});
+		}
+	})
+
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
@@ -23,39 +51,11 @@ function activate(context) {
 
 		// Display a message box to the user
 		var extPath = path.resolve(context.extensionPath);
-      	var path_file = path.resolve(extPath, "ddl.txt")
+		var path_file = path.resolve(extPath, "ddl.txt")
 		vscode.workspace.openTextDocument(vscode.Uri.file(path_file)).
-		then(value => {
-			vscode.window.showTextDocument(value).then(value1 =>{
-			vscode.workspace.onDidCloseTextDocument(function(){
-				console.log("close call")
-				if(value1.document.getText()){
-				const pickListItems = [];
-				const option1 = {
-					label: "Yes",
-					description: "To submit the changes",
-				};
-				const option2 = {
-					label: "No",
-					description: "Delete the changes",
-				};
-				pickListItems.push(option1,option2)
-				vscode.window.showQuickPick(pickListItems,{ 
-					ignoreFocusOut: true,
-					placeHolder: "Choose one of the action below",
-				}).then( selected => {
-					if(selected){
-						if(selected == option1){
-							console.log(value1.document.getText())
-						} else{
-							console.log("No")
-						}
-					}
-					
-				});
-			}})
-		})
-		})
+			then(value => {
+				vscode.window.showTextDocument(value);
+			})
 	});
 
 	context.subscriptions.push(disposable);
@@ -63,11 +63,11 @@ function activate(context) {
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
-function deactivate() {}
+function deactivate() { }
 
-//This is for testing the onDidClosetextDocument() 
-function Test(){
-		
+//This is for testing the onDidClosetextDocument()
+function Test() {
+
 }
 
 module.exports = {
