@@ -34,7 +34,7 @@ function activate(context) {
 			}).then(selected => {
 				if (selected) {
 					if (selected == option1) {
-						console.log(document.getText())
+						vscode.window.showInformationMessage(document.getText())
 					} else {
 						console.log("No")
 					}

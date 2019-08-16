@@ -3,6 +3,7 @@
 	"displayName": "hellovscode",
 	"description": "testing the close function",
 	"version": "0.0.1",
+	"publisher":"akhil",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
